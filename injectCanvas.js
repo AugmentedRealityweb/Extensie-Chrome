@@ -21,7 +21,7 @@ function createEggGame() {
 
   const eggWidth = 80;  // Dimensiune redusă cu 20%
   const eggHeight = 120; // Dimensiune redusă cu 20%
-  const eggX = 20; // Poziționat mai la stânga
+  const eggX = canvas.width - eggWidth - 20; // Poziționat în dreapta, lângă taburi
   const eggY = 20; // Poziționat mai sus, sub bara de navigare
 
   function draw() {
