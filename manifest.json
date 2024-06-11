@@ -1,28 +1,41 @@
 {
   "manifest_version": 3,
-  "name": "Egg Game Extension",
+  "name": "Egg Clicker Game",
   "version": "1.0",
-  "description": "Click the egg to reduce the score and try to reach 0 to break the egg.",
+  "description": "A fun game where you click an egg until it breaks.",
+  "action": {
+    "default_icon": "images/icon.png",
+    "default_popup": "popup.html",
+    "default_title": "Egg Clicker Game"
+  },
   "background": {
     "service_worker": "background.js"
   },
-  "action": {
-    "default_icon": {
-      "16": "images/icon.png",
-      "48": "images/icon.png",
-      "128": "images/icon.png"
-    }
-  },
-  "permissions": ["activeTab", "scripting", "storage"],
-  "web_accessible_resources": [
-    {
-      "resources": ["images/egg.png"],
-      "matches": ["<all_urls>"]
-    }
+  "permissions": [
+    "scripting",
+    "activeTab",
+    "storage"
   ],
   "icons": {
     "16": "images/icon.png",
     "48": "images/icon.png",
     "128": "images/icon.png"
-  }
+  },
+  "web_accessible_resources": [{
+    "resources": [
+      "images/1.png",
+      "images/2.png",
+      "images/3.png",
+      "images/4.png",
+      "images/5.png",
+      "images/6.png",
+      "images/7.png",
+      "images/8.png",
+      "images/9.png",
+      "images/10.png",
+      "images/11.png",
+      "images/12.png"
+    ],
+    "matches": ["<all_urls>"]
+  }]
 }
