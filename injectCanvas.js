@@ -17,6 +17,7 @@ function createEggGame() {
   let score = localStorage.getItem('eggScore') ? parseInt(localStorage.getItem('eggScore')) : 9999999;
   const egg = new Image();
   egg.src = chrome.runtime.getURL('images/egg.png');
+  console.log('Egg image src:', egg.src);  // Verifică calea imaginii
 
   const eggWidth = 100;
   const eggHeight = 150;
@@ -25,6 +26,7 @@ function createEggGame() {
 
   function draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
+    console.log('Drawing egg at', eggX, eggY);  // Verifică dacă funcția draw este apelată
     ctx.drawImage(egg, eggX, eggY, eggWidth, eggHeight);
     ctx.font = '30px Arial';
     ctx.fillStyle = 'black';
@@ -53,6 +55,7 @@ function createEggGame() {
   }
 
   egg.onload = () => {
+    console.log('Egg image loaded');  // Verifică dacă imaginea este încărcată
     draw();
     document.addEventListener('click', handleClick);
   };
