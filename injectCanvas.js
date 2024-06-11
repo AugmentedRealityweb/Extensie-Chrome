@@ -50,20 +50,24 @@ function createFireworks() {
     this.angle = Math.random() * 2 * Math.PI;
     this.age = 0;
     this.opacity = 1;
+    this.size = Math.random() * 3 + 1;
     this.color = `hsla(${Math.random() * 360}, 100%, 50%, ${this.opacity})`;
   }
 
   Particle.prototype.update = function () {
     this.age++;
     this.opacity -= 0.01;
+    this.size -= 0.03;
     this.x += Math.cos(this.angle) * this.speed;
     this.y += Math.sin(this.angle) * this.speed;
   };
 
   Particle.prototype.draw = function () {
     ctx.beginPath();
-    ctx.arc(this.x, this.y, 2, 0, Math.PI * 2);
+    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
     ctx.fillStyle = this.color;
+    ctx.shadowBlur = 10;
+    ctx.shadowColor = this.color;
     ctx.fill();
   };
 
