@@ -65,4 +65,5 @@ function createEggGame() {
   };
 }
 
+console.log('injectCanvas.js loaded');
 createEggGame();
