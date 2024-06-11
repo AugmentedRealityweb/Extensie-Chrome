@@ -18,3 +18,4 @@ As a user, you have the right to understand how your data is used and to request
 Contact Information
 
 If you have any questions about this Privacy Policy, please contact us at [vlad.manoliu96@yahoo.com].
+
