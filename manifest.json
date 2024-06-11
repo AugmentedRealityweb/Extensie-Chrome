@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
-  "name": "Fireworks Show Extension",
+  "name": "Egg Game Extension",
   "version": "1.0",
-  "description": "Creates a fireworks show when you click on the screen.",
+  "description": "Click the egg to reduce the score and try to reach 0 to break the egg.",
   "background": {
     "service_worker": "background.js"
   },
@@ -13,7 +13,7 @@
       "128": "images/icon.png"
     }
   },
-  "permissions": ["activeTab", "scripting"],
+  "permissions": ["activeTab", "scripting", "storage"],
   "icons": {
     "16": "images/icon.png",
     "48": "images/icon.png",
