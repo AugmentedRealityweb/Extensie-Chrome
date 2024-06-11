@@ -17,7 +17,7 @@ function createEggGame() {
 
   let score = localStorage.getItem('eggScore') ? parseInt(localStorage.getItem('eggScore')) : 9999999;
   const egg = new Image();
-  egg.src = 'https://path-to-your-egg-image.png'; // Replace with the path to your egg image
+  egg.src = 'ou.png'; // Replace with the path to your egg image
 
   const eggWidth = 100;
   const eggHeight = 150;
