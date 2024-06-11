@@ -15,9 +15,11 @@ function createEggGame() {
   canvas.height = window.innerHeight;
 
   let score = localStorage.getItem('eggScore') ? parseInt(localStorage.getItem('eggScore')) : 9999999;
-  const egg = new Image();
-  egg.src = chrome.runtime.getURL('images/egg.png');
-  console.log('Egg image src:', egg.src);
+  const eggImages = Array.from({ length: 12 }, (_, i) => {
+    const img = new Image();
+    img.src = chrome.runtime.getURL(`images/${i + 1}.png`);
+    return img;
+  });
 
   const eggWidth = 80;  // Dimensiune redusă cu 20%
   const eggHeight = 120; // Dimensiune redusă cu 20%
@@ -25,9 +27,10 @@ function createEggGame() {
   const eggY = 40; // Ajustat pentru a fi mai sus
 
   function draw() {
+    const imageIndex = Math.min(Math.floor(score / (9999999 / 12)), 11); // Calculăm indexul imaginii în funcție de scor
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     console.log('Drawing egg at', eggX, eggY);
-    ctx.drawImage(egg, eggX, eggY, eggWidth, eggHeight);
+    ctx.drawImage(eggImages[imageIndex], eggX, eggY, eggWidth, eggHeight);
 
     // Desenează scorul centrat sub ou
     ctx.font = 'bold 32px "Segoe UI", Tahoma, Geneva, Verdana, sans-serif'; // Dimensiune redusă cu 20%
@@ -82,15 +85,15 @@ function createEggGame() {
     }
   }
 
-  egg.onload = () => {
-    console.log('Egg image loaded');
-    draw();
-    document.addEventListener('click', handleClick);
-  };
-
-  egg.onerror = (e) => {
-    console.error('Failed to load egg image:', e);
-  };
+  Promise.all(eggImages.map(img => new Promise(resolve => img.onload = resolve)))
+    .then(() => {
+      console.log('All egg images loaded');
+      draw();
+      document.addEventListener('click', handleClick);
+    })
+    .catch(err => {
+      console.error('Failed to load one or more egg images:', err);
+    });
 }
 
 console.log('injectCanvas.js loaded');
