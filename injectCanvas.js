@@ -21,19 +21,19 @@ function createEggGame() {
 
   const eggWidth = 80;  // Dimensiune redusă cu 20%
   const eggHeight = 120; // Dimensiune redusă cu 20%
-  const eggX = canvas.width - eggWidth - 150; // Poziționat mai la stânga
-  const eggY = 30; // Poziționat mai sus, sub bara de navigare
+  const eggX = 20; // Poziționat mai la stânga
+  const eggY = 20; // Poziționat mai sus, sub bara de navigare
 
   function draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     console.log('Drawing egg at', eggX, eggY);
     ctx.drawImage(egg, eggX, eggY, eggWidth, eggHeight);
 
-    // Desenează scorul într-un stil mai modern
+    // Desenează scorul centrat sub ou
     ctx.font = 'bold 32px "Segoe UI", Tahoma, Geneva, Verdana, sans-serif'; // Dimensiune redusă cu 20%
     ctx.fillStyle = 'black';
-    ctx.textAlign = 'right';
-    ctx.fillText(score, canvas.width - 170, eggY + eggHeight + 40);
+    ctx.textAlign = 'center';
+    ctx.fillText(score, eggX + eggWidth / 2, eggY + eggHeight + 40);
   }
 
   function createSparkle(x, y) {
