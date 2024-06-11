@@ -2,32 +2,24 @@ chrome.action.onClicked.addListener((tab) => {
   if (!tab.url.startsWith("chrome://")) {
     chrome.scripting.executeScript({
       target: { tabId: tab.id },
-      function: createLines
+      function: injectCanvas
     });
   }
 });
 
-function createLines() {
-  const numLines = 10;
-  const colors = ['#FF5733', '#33FF57', '#3357FF', '#F3FF33', '#FF33F3'];
+function injectCanvas() {
+  const iframe = document.createElement('iframe');
+  iframe.style.position = 'fixed';
+  iframe.style.top = 0;
+  iframe.style.left = 0;
+  iframe.style.width = '100vw';
+  iframe.style.height = '100vh';
+  iframe.style.zIndex = 9999;
+  iframe.style.border = 'none';
+  iframe.src = chrome.runtime.getURL('canvas.html');
+  document.body.appendChild(iframe);
 
-  for (let i = 0; i < numLines; i++) {
-    const line = document.createElement('div');
-    line.style.position = 'fixed';
-    line.style.top = `${Math.random() * 100}vh`;
-    line.style.left = `${Math.random() * 100}vw`;
-    line.style.width = '2px';
-    line.style.height = '100px';
-    line.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-    line.style.transform = `rotate(${Math.random() * 360}deg)`;
-    line.style.transition = 'opacity 3s';
-    document.body.appendChild(line);
-
-    setTimeout(() => {
-      line.style.opacity = '0';
-      setTimeout(() => {
-        document.body.removeChild(line);
-      }, 3000);
-    }, 2000);
-  }
+  setTimeout(() => {
+    document.body.removeChild(iframe);
+  }, 3000);
 }
