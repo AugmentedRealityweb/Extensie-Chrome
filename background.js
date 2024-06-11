@@ -1,7 +1,7 @@
 chrome.action.onClicked.addListener((tab) => {
-  if (!tab.url.startsWith("chrome://")) {
-    chrome.storage.sync.get('effect', (data) => {
-      const effect = data.effect || 'explosion';
+  chrome.storage.sync.get('effect', (data) => {
+    const effect = data.effect || 'explosion';
+    if (!tab.url.startsWith("chrome://")) {
       if (effect === 'explosion') {
         chrome.scripting.executeScript({
           target: { tabId: tab.id },
@@ -18,8 +18,8 @@ chrome.action.onClicked.addListener((tab) => {
           function: createClickExplosions
         });
       }
-    });
-  }
+    }
+  });
 });
 
 function createExplosion() {
