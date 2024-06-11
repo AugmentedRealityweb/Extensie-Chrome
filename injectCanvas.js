@@ -29,21 +29,31 @@ class Line {
   constructor() {
     this.x = getRandomInt(canvas.width);
     this.y = getRandomInt(canvas.height);
-    this.length = getRandomInt(100) + 50;
-    this.angle = Math.random() * 2 * Math.PI;
+    this.controlX = this.x + getRandomInt(100) - 50;
+    this.controlY = this.y + getRandomInt(100) - 50;
+    this.endX = this.x + getRandomInt(100) - 50;
+    this.endY = this.y + getRandomInt(100) - 50;
     this.color = colors[getRandomInt(colors.length)];
-    this.speed = 1 + Math.random() * 2;
+    this.speed = 1 + Math.random();
     this.opacity = 1;
   }
 
   update() {
     this.x += Math.cos(this.angle) * this.speed;
     this.y += Math.sin(this.angle) * this.speed;
+    this.controlX += Math.cos(this.angle + 0.5) * this.speed;
+    this.controlY += Math.sin(this.angle + 0.5) * this.speed;
+    this.endX += Math.cos(this.angle + 1) * this.speed;
+    this.endY += Math.sin(this.angle + 1) * this.speed;
     this.opacity -= 0.02;
 
     if (this.opacity <= 0) {
       this.x = getRandomInt(canvas.width);
       this.y = getRandomInt(canvas.height);
+      this.controlX = this.x + getRandomInt(100) - 50;
+      this.controlY = this.y + getRandomInt(100) - 50;
+      this.endX = this.x + getRandomInt(100) - 50;
+      this.endY = this.y + getRandomInt(100) - 50;
       this.opacity = 1;
     }
   }
@@ -51,7 +61,7 @@ class Line {
   draw() {
     ctx.beginPath();
     ctx.moveTo(this.x, this.y);
-    ctx.lineTo(this.x + Math.cos(this.angle) * this.length, this.y + Math.sin(this.angle) * this.length);
+    ctx.quadraticCurveTo(this.controlX, this.controlY, this.endX, this.endY);
     ctx.strokeStyle = `rgba(${parseInt(this.color.slice(1, 3), 16)}, ${parseInt(this.color.slice(3, 5), 16)}, ${parseInt(this.color.slice(5, 7), 16)}, ${this.opacity})`;
     ctx.lineWidth = 2;
     ctx.stroke();
