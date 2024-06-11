@@ -21,17 +21,19 @@ function createEggGame() {
 
   const eggWidth = 100;
   const eggHeight = 150;
-  const eggX = (canvas.width - eggWidth) / 2;
-  const eggY = (canvas.height - eggHeight) / 2;
+  const eggX = canvas.width - eggWidth - 20;
+  const eggY = 100;
 
   function draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     console.log('Drawing egg at', eggX, eggY);
     ctx.drawImage(egg, eggX, eggY, eggWidth, eggHeight);
-    ctx.font = '30px Arial';
+
+    // Desenează scorul într-un stil mai modern
+    ctx.font = 'bold 40px "Segoe UI", Tahoma, Geneva, Verdana, sans-serif';
     ctx.fillStyle = 'black';
-    ctx.textAlign = 'center';
-    ctx.fillText(score, canvas.width / 2, eggY + eggHeight + 50);
+    ctx.textAlign = 'right';
+    ctx.fillText(score, canvas.width - 30, eggY + eggHeight + 50);
   }
 
   function handleClick(event) {
