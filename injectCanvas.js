@@ -14,11 +14,10 @@ function createEggGame() {
   canvas.width = window.innerWidth;
   canvas.height = window.innerHeight;
 
-  let score = localStorage.getItem('eggScore') ? parseInt(localStorage.getItem('eggScore')) : 9999999;
+  let clickCount = 0;
   const eggImages = Array.from({ length: 12 }, (_, i) => {
     const img = new Image();
     img.src = chrome.runtime.getURL(`images/${i + 1}.png`);
-    console.log(`Loading image: ${img.src}`); // Mesaj de depanare
     return img;
   });
 
@@ -28,16 +27,17 @@ function createEggGame() {
   const eggY = 40; // Ajustat pentru a fi mai sus
 
   function draw() {
-    const imageIndex = Math.min(Math.floor((9999999 - score) / (9999999 / 12)), 11); // Calculăm indexul imaginii în funcție de scor
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    console.log('Drawing egg at', eggX, eggY, 'with image index', imageIndex);
-    ctx.drawImage(eggImages[imageIndex], eggX, eggY, eggWidth, eggHeight);
+    const imageIndex = Math.floor(clickCount / 10); // Calculăm indexul imaginii în funcție de clickCount
+    if (imageIndex < eggImages.length) {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.drawImage(eggImages[imageIndex], eggX, eggY, eggWidth, eggHeight);
 
-    // Desenează scorul centrat sub ou
-    ctx.font = 'bold 32px "Segoe UI", Tahoma, Geneva, Verdana, sans-serif'; // Dimensiune redusă cu 20%
-    ctx.fillStyle = 'black';
-    ctx.textAlign = 'center';
-    ctx.fillText(score, eggX + eggWidth / 2, eggY + eggHeight + 40);
+      // Desenează scorul centrat sub ou
+      ctx.font = 'bold 32px "Segoe UI", Tahoma, Geneva, Verdana, sans-serif'; // Dimensiune redusă cu 20%
+      ctx.fillStyle = 'black';
+      ctx.textAlign = 'center';
+      ctx.fillText(clickCount, eggX + eggWidth / 2, eggY + eggHeight + 40);
+    }
   }
 
   function createSparkle(x, y) {
@@ -71,13 +71,7 @@ function createEggGame() {
     const y = event.clientY - rect.top;
 
     if (x > eggX && x < eggX + eggWidth && y > eggY && y < eggY + eggHeight) {
-      score--;
-      localStorage.setItem('eggScore', score);
-      if (score <= 0) {
-        alert('Felicitări! Ai spart oul!');
-        score = 9999999;
-        localStorage.setItem('eggScore', score);
-      }
+      clickCount++;
       draw();
       createSparkle(event.clientX, event.clientY);
     } else {
