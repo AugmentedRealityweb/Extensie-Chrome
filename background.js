@@ -1,8 +1,10 @@
 chrome.action.onClicked.addListener((tab) => {
-  chrome.scripting.executeScript({
-    target: { tabId: tab.id },
-    function: createLines
-  });
+  if (!tab.url.startsWith("chrome://")) {
+    chrome.scripting.executeScript({
+      target: { tabId: tab.id },
+      function: createLines
+    });
+  }
 });
 
 function createLines() {
