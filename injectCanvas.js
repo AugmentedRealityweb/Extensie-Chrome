@@ -21,64 +21,54 @@ canvas.height = window.innerHeight;
 
 const colors = ['#FF5733', '#33FF57', '#3357FF', '#F3FF33', '#FF33F3'];
 
-function getRandomInt(max) {
-  return Math.floor(Math.random() * max);
-}
-
-class Line {
-  constructor() {
-    this.x = getRandomInt(canvas.width);
-    this.y = getRandomInt(canvas.height);
-    this.controlX = this.x + getRandomInt(100) - 50;
-    this.controlY = this.y + getRandomInt(100) - 50;
-    this.endX = this.x + getRandomInt(100) - 50;
-    this.endY = this.y + getRandomInt(100) - 50;
-    this.color = colors[getRandomInt(colors.length)];
-    this.speed = 1 + Math.random();
+class Particle {
+  constructor(x, y) {
+    this.x = x;
+    this.y = y;
+    this.size = Math.random() * 5 + 2;
+    this.color = colors[Math.floor(Math.random() * colors.length)];
+    this.speedX = Math.random() * 4 - 2;
+    this.speedY = Math.random() * 4 - 2;
     this.opacity = 1;
   }
 
   update() {
-    this.x += Math.cos(this.angle) * this.speed;
-    this.y += Math.sin(this.angle) * this.speed;
-    this.controlX += Math.cos(this.angle + 0.5) * this.speed;
-    this.controlY += Math.sin(this.angle + 0.5) * this.speed;
-    this.endX += Math.cos(this.angle + 1) * this.speed;
-    this.endY += Math.sin(this.angle + 1) * this.speed;
+    this.x += this.speedX;
+    this.y += this.speedY;
     this.opacity -= 0.02;
 
     if (this.opacity <= 0) {
-      this.x = getRandomInt(canvas.width);
-      this.y = getRandomInt(canvas.height);
-      this.controlX = this.x + getRandomInt(100) - 50;
-      this.controlY = this.y + getRandomInt(100) - 50;
-      this.endX = this.x + getRandomInt(100) - 50;
-      this.endY = this.y + getRandomInt(100) - 50;
+      this.x = Math.random() * canvas.width;
+      this.y = Math.random() * canvas.height;
       this.opacity = 1;
+      this.speedX = Math.random() * 4 - 2;
+      this.speedY = Math.random() * 4 - 2;
     }
   }
 
   draw() {
     ctx.beginPath();
-    ctx.moveTo(this.x, this.y);
-    ctx.quadraticCurveTo(this.controlX, this.controlY, this.endX, this.endY);
-    ctx.strokeStyle = `rgba(${parseInt(this.color.slice(1, 3), 16)}, ${parseInt(this.color.slice(3, 5), 16)}, ${parseInt(this.color.slice(5, 7), 16)}, ${this.opacity})`;
-    ctx.lineWidth = 2;
-    ctx.stroke();
+    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2, false);
+    ctx.fillStyle = `rgba(${parseInt(this.color.slice(1, 3), 16)}, ${parseInt(this.color.slice(3, 5), 16)}, ${parseInt(this.color.slice(5, 7), 16)}, ${this.opacity})`;
+    ctx.fill();
   }
 }
 
-const lines = [];
-for (let i = 0; i < 20; i++) {
-  lines.push(new Line());
+const particles = [];
+const numParticles = 100;
+const centerX = canvas.width / 2;
+const centerY = canvas.height / 2;
+
+for (let i = 0; i < numParticles; i++) {
+  particles.push(new Particle(centerX, centerY));
 }
 
 function animate() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-  lines.forEach(line => {
-    line.update();
-    line.draw();
+  particles.forEach(particle => {
+    particle.update();
+    particle.draw();
   });
 
   requestAnimationFrame(animate);
