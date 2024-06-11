@@ -17,7 +17,7 @@ function createEggGame() {
 
   let score = localStorage.getItem('eggScore') ? parseInt(localStorage.getItem('eggScore')) : 9999999;
   const egg = new Image();
-  egg.src = 'images/ou.png'; // Replace with the path to your egg image
+  egg.src = chrome.runtime.getURL('images/egg.png'); // Asigură-te că această cale este corectă
 
   const eggWidth = 100;
   const eggHeight = 150;
