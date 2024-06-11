@@ -1,6 +1,6 @@
-function createTrail() {
+function createFireworks() {
   const canvas = document.createElement('canvas');
-  canvas.id = 'trailCanvas';
+  canvas.id = 'fireworksCanvas';
   canvas.style.position = 'fixed';
   canvas.style.top = 0;
   canvas.style.left = 0;
@@ -14,44 +14,82 @@ function createTrail() {
   canvas.width = window.innerWidth;
   canvas.height = window.innerHeight;
 
-  let trails = [];
+  let fireworks = [];
 
-  function drawTrail(event) {
-    trails.push({
-      x: event.clientX,
-      y: event.clientY,
-      alpha: 1,
-    });
+  function Firework(x, y) {
+    this.x = x;
+    this.y = y;
+    this.age = 0;
+    this.particles = [];
+    for (let i = 0; i < 100; i++) {
+      this.particles.push(new Particle(this.x, this.y));
+    }
   }
 
-  function animateTrails() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.globalCompositeOperation = 'source-over';
-
-    trails.forEach((trail, index) => {
-      ctx.fillStyle = `rgba(255, 105, 180, ${trail.alpha})`;
-      ctx.shadowColor = `rgba(255, 105, 180, ${trail.alpha})`;
-      ctx.shadowBlur = 20;
-      ctx.beginPath();
-      ctx.arc(trail.x, trail.y, 15, 0, Math.PI * 2, false);
-      ctx.fill();
-
-      trail.alpha -= 0.02;
-      if (trail.alpha <= 0) {
-        trails.splice(index, 1);
+  Firework.prototype.update = function () {
+    this.age++;
+    for (let i = 0; i < this.particles.length; i++) {
+      this.particles[i].update();
+      if (this.particles[i].age > 100) {
+        this.particles.splice(i, 1);
+        i--;
       }
-    });
+    }
+  };
 
-    requestAnimationFrame(animateTrails);
+  Firework.prototype.draw = function () {
+    for (let i = 0; i < this.particles.length; i++) {
+      this.particles[i].draw();
+    }
+  };
+
+  function Particle(x, y) {
+    this.x = x;
+    this.y = y;
+    this.speed = Math.random() * 4 + 1;
+    this.angle = Math.random() * 2 * Math.PI;
+    this.age = 0;
+    this.opacity = 1;
+    this.color = `hsla(${Math.random() * 360}, 100%, 50%, ${this.opacity})`;
   }
 
-  document.addEventListener('mousemove', drawTrail);
-  requestAnimationFrame(animateTrails);
+  Particle.prototype.update = function () {
+    this.age++;
+    this.opacity -= 0.01;
+    this.x += Math.cos(this.angle) * this.speed;
+    this.y += Math.sin(this.angle) * this.speed;
+  };
+
+  Particle.prototype.draw = function () {
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, 2, 0, Math.PI * 2);
+    ctx.fillStyle = this.color;
+    ctx.fill();
+  };
+
+  function animateFireworks() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    for (let i = 0; i < fireworks.length; i++) {
+      fireworks[i].update();
+      fireworks[i].draw();
+      if (fireworks[i].particles.length === 0) {
+        fireworks.splice(i, 1);
+        i--;
+      }
+    }
+    requestAnimationFrame(animateFireworks);
+  }
+
+  document.addEventListener('click', (event) => {
+    fireworks.push(new Firework(event.clientX, event.clientY));
+  });
+
+  animateFireworks();
 
   setTimeout(() => {
-    document.removeEventListener('mousemove', drawTrail);
+    document.removeEventListener('click', this);
     document.body.removeChild(canvas);
-  }, 5000);
+  }, 10000);
 }
 
-createTrail();
+createFireworks();
