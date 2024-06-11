@@ -5,7 +5,6 @@
   "description": "A fun game where you click an egg until it breaks.",
   "action": {
     "default_icon": "images/icon.png",
-    "default_popup": "popup.html",
     "default_title": "Egg Clicker Game"
   },
   "background": {
