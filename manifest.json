@@ -1,20 +1,19 @@
 {
   "manifest_version": 3,
-  "name": "Colorful Lines Extension",
+  "name": "Color Trail Extension",
   "version": "1.0",
-  "description": "Shows animated colorful lines on the screen when the button is clicked.",
+  "description": "Shows a colorful trail behind the cursor when the button is clicked.",
   "background": {
     "service_worker": "background.js"
   },
   "action": {
-    "default_popup": "popup.html",
     "default_icon": {
       "16": "images/icon.png",
       "48": "images/icon.png",
       "128": "images/icon.png"
     }
   },
-  "permissions": ["activeTab", "scripting", "storage"],
+  "permissions": ["activeTab", "scripting"],
   "icons": {
     "16": "images/icon.png",
     "48": "images/icon.png",
