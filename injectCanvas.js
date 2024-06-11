@@ -18,6 +18,7 @@ function createEggGame() {
   const eggImages = Array.from({ length: 12 }, (_, i) => {
     const img = new Image();
     img.src = chrome.runtime.getURL(`images/${i + 1}.png`);
+    console.log(`Loading image: ${img.src}`); // Mesaj de depanare
     return img;
   });
 
