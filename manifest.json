@@ -1,0 +1,22 @@
+{
+  "manifest_version": 3,
+  "name": "Colorful Lines Extension",
+  "version": "1.0",
+  "description": "Shows animated colorful lines on the screen when the button is clicked.",
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_icon": {
+      "16": "images/icon.png",
+      "48": "images/icon.png",
+      "128": "images/icon.png"
+    }
+  },
+  "permissions": ["activeTab", "scripting"],
+  "icons": {
+    "16": "images/icon.png",
+    "48": "images/icon.png",
+    "128": "images/icon.png"
+  }
+}
