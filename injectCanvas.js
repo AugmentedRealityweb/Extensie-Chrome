@@ -19,10 +19,10 @@ function createEggGame() {
   egg.src = chrome.runtime.getURL('images/egg.png');
   console.log('Egg image src:', egg.src);
 
-  const eggWidth = 100;
-  const eggHeight = 150;
-  const eggX = canvas.width - eggWidth - 20;
-  const eggY = 100;
+  const eggWidth = 80;  // Dimensiune redusă cu 20%
+  const eggHeight = 120; // Dimensiune redusă cu 20%
+  const eggX = canvas.width - eggWidth - 50; // Poziționat mai la stânga
+  const eggY = 50; // Poziționat mai sus, sub bara de navigare
 
   function draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -30,10 +30,34 @@ function createEggGame() {
     ctx.drawImage(egg, eggX, eggY, eggWidth, eggHeight);
 
     // Desenează scorul într-un stil mai modern
-    ctx.font = 'bold 40px "Segoe UI", Tahoma, Geneva, Verdana, sans-serif';
+    ctx.font = 'bold 32px "Segoe UI", Tahoma, Geneva, Verdana, sans-serif'; // Dimensiune redusă cu 20%
     ctx.fillStyle = 'black';
     ctx.textAlign = 'right';
-    ctx.fillText(score, canvas.width - 30, eggY + eggHeight + 50);
+    ctx.fillText(score, canvas.width - 60, eggY + eggHeight + 40);
+  }
+
+  function createSparkle(x, y) {
+    const sparkle = document.createElement('div');
+    sparkle.style.position = 'fixed';
+    sparkle.style.top = `${y}px`;
+    sparkle.style.left = `${x}px`;
+    sparkle.style.width = '10px';
+    sparkle.style.height = '10px';
+    sparkle.style.backgroundColor = 'gold';
+    sparkle.style.borderRadius = '50%';
+    sparkle.style.pointerEvents = 'none';
+    sparkle.style.opacity = '1';
+    sparkle.style.transition = 'opacity 0.5s, transform 0.5s';
+    document.body.appendChild(sparkle);
+
+    requestAnimationFrame(() => {
+      sparkle.style.opacity = '0';
+      sparkle.style.transform = 'scale(3)';
+    });
+
+    setTimeout(() => {
+      sparkle.remove();
+    }, 500);
   }
 
   function handleClick(event) {
@@ -50,6 +74,7 @@ function createEggGame() {
         localStorage.setItem('eggScore', score);
       }
       draw();
+      createSparkle(event.clientX, event.clientY);
     } else {
       document.body.removeChild(canvas);
       document.removeEventListener('click', handleClick);
