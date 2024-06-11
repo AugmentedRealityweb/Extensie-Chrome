@@ -6,7 +6,7 @@ function createEggGame() {
   canvas.style.left = 0;
   canvas.style.width = '100vw';
   canvas.style.height = '100vh';
-  canvas.style.zIndex = 9999;
+  canvas.style.zIndex = 9998; // Ajustat pentru a fi sub sparkle
   canvas.style.pointerEvents = 'none';
   document.body.appendChild(canvas);
 
@@ -21,8 +21,8 @@ function createEggGame() {
 
   const eggWidth = 80;  // Dimensiune redusă cu 20%
   const eggHeight = 120; // Dimensiune redusă cu 20%
-  const eggX = canvas.width - eggWidth - 50; // Poziționat mai la stânga
-  const eggY = 50; // Poziționat mai sus, sub bara de navigare
+  const eggX = canvas.width - eggWidth - 150; // Poziționat mai la stânga
+  const eggY = 30; // Poziționat mai sus, sub bara de navigare
 
   function draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -33,7 +33,7 @@ function createEggGame() {
     ctx.font = 'bold 32px "Segoe UI", Tahoma, Geneva, Verdana, sans-serif'; // Dimensiune redusă cu 20%
     ctx.fillStyle = 'black';
     ctx.textAlign = 'right';
-    ctx.fillText(score, canvas.width - 60, eggY + eggHeight + 40);
+    ctx.fillText(score, canvas.width - 170, eggY + eggHeight + 40);
   }
 
   function createSparkle(x, y) {
@@ -47,6 +47,7 @@ function createEggGame() {
     sparkle.style.borderRadius = '50%';
     sparkle.style.pointerEvents = 'none';
     sparkle.style.opacity = '1';
+    sparkle.style.zIndex = '9999'; // Asigură-te că sparkle-ul este deasupra oului
     sparkle.style.transition = 'opacity 0.5s, transform 0.5s';
     document.body.appendChild(sparkle);
 
