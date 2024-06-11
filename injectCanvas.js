@@ -1,5 +1,4 @@
 function createEggGame() {
-  // Creează canvas-ul și adaugă-l în document
   const canvas = document.createElement('canvas');
   canvas.id = 'eggCanvas';
   canvas.style.position = 'fixed';
@@ -17,7 +16,7 @@ function createEggGame() {
 
   let score = localStorage.getItem('eggScore') ? parseInt(localStorage.getItem('eggScore')) : 9999999;
   const egg = new Image();
-  egg.src = chrome.runtime.getURL('images/egg.png'); // Asigură-te că această cale este corectă
+  egg.src = chrome.runtime.getURL('images/egg.png');
 
   const eggWidth = 100;
   const eggHeight = 150;
@@ -26,11 +25,7 @@ function createEggGame() {
 
   function draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-    // Desenează oul
     ctx.drawImage(egg, eggX, eggY, eggWidth, eggHeight);
-
-    // Desenează scorul
     ctx.font = '30px Arial';
     ctx.fillStyle = 'black';
     ctx.textAlign = 'center';
